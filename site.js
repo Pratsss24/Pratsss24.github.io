@@ -33,6 +33,11 @@
     toggle.hidden = false;
     paintToggle();
 
+    /* the system scheme can change while the page is open; if the visitor has
+       not chosen one explicitly, follow it */
+    window.matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", paintToggle);
+
     toggle.addEventListener("click", function () {
       var next = isDark() ? "light" : "dark";
       root.setAttribute("data-theme", next);
@@ -76,6 +81,9 @@
     document.querySelectorAll("a.figure").forEach(function (link) {
       link.addEventListener("click", function (event) {
         if (event.metaKey || event.ctrlKey || event.shiftKey) return;
+        /* on a phone the dialog is no wider than the card, so let the browser
+           open the PNG itself — pinch-zoom is the better magnifier there */
+        if (window.innerWidth < 640) return;
         event.preventDefault();
         img.src = link.getAttribute("href");
         img.alt = link.querySelector("img").alt;
