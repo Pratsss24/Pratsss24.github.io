@@ -15,9 +15,12 @@
 </head>
 <body>
 
+<div class="progress" id="progress" aria-hidden="true"><span></span></div>
+
 <header class="top">
-  <div class="wrap">
+  <div class="wrap hero">
     <button class="theme-toggle" id="theme-toggle" type="button" hidden>Dark mode</button>
+    <div class="hero-text">
     <h1>Prathamesh Bedre</h1>
     <p class="standfirst">Manufacturing analytics, quality and simulation.</p>
     <div class="intro">
@@ -35,6 +38,36 @@
       <li><a href="#manufacturing">Manufacturing, metrology, simulation</a></li>
       <li><a href="#f1">Applied statistics on racing data</a></li>
     </ul>
+    </div>
+
+    <!-- Decorative. A control chart is the shape most of this work takes:
+         a centre line, limits, and the one point that asks a question. -->
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 320 200" role="presentation" focusable="false">
+        <defs>
+          <linearGradient id="band" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stop-color="currentColor" stop-opacity="0.07"/>
+            <stop offset="1" stop-color="currentColor" stop-opacity="0.02"/>
+          </linearGradient>
+        </defs>
+        <rect class="art-band" x="14" y="52" width="292" height="96" fill="url(#band)" rx="3"/>
+        <line class="art-limit" x1="14" y1="52" x2="306" y2="52"/>
+        <line class="art-limit" x1="14" y1="148" x2="306" y2="148"/>
+        <line class="art-centre" x1="14" y1="100" x2="306" y2="100"/>
+        <polyline class="art-trace" fill="none"
+          points="24,104 44,92 64,108 84,96 104,112 124,88 144,102 164,94 184,118 204,86 224,106 244,98 264,40 284,100 300,96"/>
+        <g class="art-points">
+          <circle cx="24" cy="104" r="3"/><circle cx="44" cy="92" r="3"/>
+          <circle cx="64" cy="108" r="3"/><circle cx="84" cy="96" r="3"/>
+          <circle cx="104" cy="112" r="3"/><circle cx="124" cy="88" r="3"/>
+          <circle cx="144" cy="102" r="3"/><circle cx="164" cy="94" r="3"/>
+          <circle cx="184" cy="118" r="3"/><circle cx="204" cy="86" r="3"/>
+          <circle cx="224" cy="106" r="3"/><circle cx="244" cy="98" r="3"/>
+          <circle class="art-flag" cx="264" cy="40" r="4.5"/>
+          <circle cx="284" cy="100" r="3"/><circle cx="300" cy="96" r="3"/>
+        </g>
+      </svg>
+    </div>
   </div>
 </header>
 
@@ -439,7 +472,14 @@
 <dialog id="lightbox" aria-label="Enlarged figure">
   <figure>
     <img id="lightbox-img" src="" alt="">
-    <figcaption id="lightbox-cap"></figcaption>
+    <figcaption>
+      <span id="lightbox-cap"></span>
+      <span class="lightbox-nav">
+        <button type="button" id="lightbox-prev" aria-label="Previous figure">&larr;</button>
+        <span id="lightbox-count"></span>
+        <button type="button" id="lightbox-next" aria-label="Next figure">&rarr;</button>
+      </span>
+    </figcaption>
   </figure>
 </dialog>
 
