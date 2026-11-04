@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prathamesh Bedre — manufacturing analytics, quality and simulation</title>
+<meta name="description" content="Mechanical engineer working on manufacturing analytics, quality and simulation. Seventeen public repositories: SPC and capability, tolerance stack-up, discrete-event line simulation, scan-to-CAD inspection, OPC UA and OEE, remaining useful life, and applied statistics on Formula 1 data.">
+<meta name="author" content="Prathamesh Bedre">
+<meta property="og:title" content="Prathamesh Bedre — manufacturing analytics, quality and simulation">
+<meta property="og:description" content="Seventeen public engineering repositories: SPC, tolerance analysis, line simulation, metrology, OEE, reliability and applied statistics.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pratsss24.github.io/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231f5f4f'/%3E%3Cpath d='M6 23 L12 14 L18 18 L26 8' stroke='%23fff' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <button class="theme-toggle" id="theme-toggle" type="button" hidden>Dark mode</button>
+    <h1>Prathamesh Bedre</h1>
+    <p class="standfirst">Manufacturing analytics, quality and simulation.</p>
+    <div class="intro">
+      <p>I am a mechanical engineer. From the winter semester 2026/27 I am studying for an
+      M.Sc. in Intelligent Manufacturing at TU Clausthal, and I live in Clausthal-Zellerfeld.</p>
+      <p>The work I want to do is the measurement side of production: statistical process
+      control and capability, tolerance analysis, discrete-event simulation of lines,
+      metrology, machine data and OEE, reliability and remaining useful life.</p>
+      <p>Everything below is a public repository with the code, the data it was run on, the
+      tests, and a printable report. Each project states a number and says where that number
+      could be wrong.</p>
+    </div>
+    <ul class="links">
+      <li><a href="https://github.com/Pratsss24">github.com/Pratsss24</a></li>
+      <li><a href="#manufacturing">Manufacturing, metrology, simulation</a></li>
+      <li><a href="#f1">Applied statistics on racing data</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+
+<div class="wrap">
+  <nav class="filters" aria-label="Filter projects by group">
+    <button type="button" data-filter="all" aria-pressed="true">All 17</button>
+    <button type="button" data-filter="manufacturing" aria-pressed="false">Manufacturing &amp; metrology (6)</button>
+    <button type="button" data-filter="f1" aria-pressed="false">Racing data (11)</button>
+  </nav>
+</div>
+
+<section id="manufacturing" data-group="manufacturing">
+  <div class="wrap">
+    <h2>Manufacturing, metrology and simulation</h2>
+    <p class="section-note">Quality and production-engineering problems, each run end to end:
+    measurement in, decision out, with the mistake that produces a confident wrong answer
+    shown rather than avoided.</p>
+
+    <div class="grid">
+
+      <article class="card">
+        <h3><a href="https://github.com/Pratsss24/cmm-spc-dashboard">cmm-spc-dashboard</a></h3>
+        <p class="headline">Takes a coordinate measuring machine export and keeps capability and
+        stability apart, because conflating them is the common mistake. Of the seven
+        characteristics measured, <strong>one passes every part and is still out of statistical
+        control</strong>, and another is in control while scrapping <strong>8.8%</strong>.</p>
+        <a class="figure" href="figures/cmm-spc-dashboard.png"
+           data-caption="cmm-spc-dashboard — Shewhart X̄/R control chart for shaft diameter, with run rules applied.">
+          <img src="figures/cmm-spc-dashboard.png" width="1123" height="713" loading="lazy"
+               alt="Shewhart X-bar and R control chart for shaft diameter with control limits and flagged points.">
+        </a>
+        <ul class="methods">
+          <li>Cp / Cpk / Pp / Ppk</li><li>Shewhart X̄–R</li><li>Nelson run rules</li><li>matplotlib PDF report</li>
+        </ul>
+        <div class="card-links">
+          <a href="https://github.com/Pratsss24/cmm-spc-dashboard">Repository</a>
+          <a href="https://github.com/Pratsss24/cmm-spc-dashboard/blob/main/out/report.pdf">PDF report</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3><a href="https://github.com/Pratsss24/tolerance-stackup">tolerance-stackup</a></h3>
+        <p class="headline">A five-part gearbox shaft stack by three methods. Worst case says the
+        design is impossible; Monte Carlo predicts <strong>19,860 ppm</strong> scrap against
+        RSS's 13,461 — <strong>48% worse</strong>, because the shim is uniform, the bearing
+        widths skew high and the housing bore drifts 0.3σ across a shift.</p>
+        <a class="figure" href="figures/tolerance-stackup.png"
+           data-caption="tolerance-stackup — worst case, RSS and Monte Carlo on the same stack, against the end-float requirement.">
+          <img src="figures/tolerance-stackup.png" width="1204" height="423" loading="lazy"
+               alt="Comparison of worst case, RSS and Monte Carlo predicted end-float bands against the specification limits.">
+        </a>
+        <ul class="methods">
+          <li>Worst case</li><li>RSS</li><li>Monte Carlo</li><li>Variance Pareto</li><li>Tolerance allocation to target Cpk</li>
+        </ul>
+        <div class="card-links">
+          <a href="https://github.com/Pratsss24/tolerance-stackup">Repository</a>
+          <a href="https://github.com/Pratsss24/tolerance-stackup/blob/main/out/report.pdf">PDF report</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3><a href="https://github.com/Pratsss24/production-line-sim">production-line-sim</a></h3>
+        <p class="headline">A five-station machining line with finite buffers, stochastic cycle
+        times and failures. It runs at <strong>58.75 parts/h against its own bottleneck ceiling
+        of 64.23</strong> with no station overloaded — the gap is variability meeting finite
+        buffers, and no amount of fixing machines removes it.</p>
+        <a class="figure" href="figures/production-line-sim.png"
+           data-caption="production-line-sim — where each station's shift goes: running, blocked, starved, down. The bottleneck locates itself.">
+          <img src="figures/production-line-sim.png" width="1078" height="706" loading="lazy"
+               alt="Stacked bar chart of station states across a shift, showing upstream blocking and downstream starvation around the bottleneck.">
+        </a>
+        <ul class="methods">
+          <li>SimPy discrete-event</li><li>Buffer sweeps</li><li>Analytic vs observed bottleneck</li><li>Replication intervals</li>
+        </ul>
+        <div class="card-links">
+          <a href="https://github.com/Pratsss24/production-line-sim">Repository</a>
+          <a href="https://github.com/Pratsss24/production-line-sim/blob/main/out/report.pdf">PDF report</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3><a href="https://github.com/Pratsss24/scan-cad-deviation">scan-cad-deviation</a></h3>
+        <p class="headline">A scan-to-CAD inspection pipeline, ICP written from scratch. The same
+        41,414-point scan passes the tilted top face at <strong>98.6% in tolerance under best
+        fit and 61.3% against the drawing datums</strong> — the alignment decides which machine
+        you go and adjust. Planted errors are recovered to 0.004 mm.</p>
+        <a class="figure" href="figures/scan-cad-deviation.png"
+           data-caption="scan-cad-deviation — deviation map of the scan against nominal CAD, coloured by signed deviation.">
+          <img src="figures/scan-cad-deviation.png" width="1303" height="629" loading="lazy"
+               alt="Colour-mapped deviation of a scanned part against its nominal CAD geometry.">
+        </a>
+        <ul class="methods">
+          <li>ICP from scratch</li><li>Datum A|B|C alignment</li><li>Deviation mapping</li><li>Planted-error recovery</li>
+        </ul>
+        <div class="card-links">
+          <a href="https://github.com/Pratsss24/scan-cad-deviation">Repository</a>
+          <a href="https://github.com/Pratsss24/scan-cad-deviation/blob/main/out/report.pdf">PDF report</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3><a href="https://github.com/Pratsss24/opcua-machine-monitor">opcua-machine-monitor</a></h3>
+        <p class="headline">A simulated CNC machining centre published as an OPC UA server, with a
+        subscribing client, a SQLite historian and a shift report. One eight-hour shift returns
+        <strong>71.4% OEE</strong> from 80.3% availability, 90.8% performance and 97.9% quality —
+        computed from source timestamps, because arrival timestamps make an outage vanish.</p>
+        <a class="figure" href="figures/opcua-machine-monitor.png"
+           data-caption="opcua-machine-monitor — OEE waterfall: theoretical parts down through stops, speed loss and scrap to good parts.">
+          <img src="figures/opcua-machine-monitor.png" width="1138" height="495" loading="lazy"
+               alt="OEE waterfall chart from theoretical possible parts through availability, performance and quality losses to good parts.">
+        </a>
+        <ul class="methods">
+          <li>OPC UA server &amp; client</li><li>Subscriptions</li><li>SQLite historian</li><li>OEE waterfall</li>
+        </ul>
+        <div class="card-links">
+          <a href="https://github.com/Pratsss24/opcua-machine-monitor">Repository</a>
+          <a href="https://github.com/Pratsss24/opcua-machine-monitor/blob/main/out/report.pdf">PDF report</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3><a href="https://github.com/Pratsss24/remaining-useful-life">remaining-useful-life</a></h3>
+        <p class="headline">Predictive maintenance on NASA's C-MAPSS run-to-failure fleets with two
+        estimators allowed to disagree. On FD001 the sensor-driven one is <strong>4.4× more
+        accurate</strong> on engines within 25 cycles of failure (9.3 against 41.0 cycles), and
+        the age-only model's nominal 50% interval covers <strong>11%</strong> of them.</p>
+        <a class="figure" href="figures/remaining-useful-life.png"
+           data-caption="remaining-useful-life — prediction error by true remaining life: a single fleet-wide error number hides most of this.">
+          <img src="figures/remaining-useful-life.png" width="1472" height="556" loading="lazy"
+               alt="Prediction error grouped by true remaining useful life band, for the sensor-driven and age-only estimators.">
+        </a>
+        <ul class="methods">
+          <li>Right-censored survival fit</li><li>Health index from sensors</li><li>Measured interval coverage</li><li>Hold-out by unit</li>
+        </ul>
+        <div class="card-links">
+          <a href="https://github.com/Pratsss24/remaining-useful-life">Repository</a>
+          <a href="https://github.com/Pratsss24/remaining-useful-life/blob/main/out/report.pdf">PDF report</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section id="f1" data-group="f1">
+  <div class="wrap">
+    <h2>Applied statistics on racing data</h2>
+    <p class="section-note">Eleven projects on Formula 1 timing data. The reason they are here is
+    the machinery, not the sport: censored-data survival analysis, statistical process control,
+    Monte Carlo, variance components, natural experiments and designed checks against planted
+    truth — the same tools that answer reliability, capability and process-stability questions in
+    a factory. Racing timing data is public, large, and messy in the ways real process data is
+    messy, so it is somewhere to practise them honestly and be caught out when the method is
+    wrong. Several of these repositories exist because the one before it could not answer the
+    next question.</p>
+
+    <div class="grid">
+
+      <article class="card">
+        <h3><a href="https://github.com/Pratsss24/reliability-weibull">reliability-weibull</a></h3>
+        <p class="headline">Survival analysis of 3,257 car-races as a reliability problem.
+        <strong>90.4% of the observations are censored, and getting them wrong reverses the
+        conclusion</strong>: counting finishers as failures returns a Weibull β = 3.53 wear-out
+        signature, while the correct likelihood returns β = 0.918 (95% CI 0.824–1.023) —
+        indistinguishable from a constant hazard.</p>
+        <a class="figure" href="figures/reliability-weibull.png"
+           data-caption="reliability-weibull — Kaplan–Meier survival curve with the fitted Weibull, under the correct censored likelihood.">
+          <img src="figures/reliability-weibull.png" width="1420" height="536" loading="lazy"
+               alt="Survival curve with fitted Weibull distribution and confidence band.">
+        </a>
+        <ul class="methods">
+          <li>Right-censored MLE</li><li>Weibull / Kaplan–Meier</li><li>Competing risks</li><li>Probability plots</li>
+        </ul>
+        <div class="card-links">
+          <a href="https://github.com/Pratsss24/reliability-weibull">Repository</a>
+          <a href="https://github.com/Pratsss24/reliability-weibull/blob/main/out/report.pdf">PDF report</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3><a href="https://github.com/Pratsss24/pitstop-spc">pitstop-spc</a></h3>
+        <p class="headline">Statistical process control on 1,475 real pit stops, charted the way a
+        manufacturing process is charted. A textbook individuals chart with 3-sigma limits raises
+        <strong>14.7× as many alarms as it should</strong>, and the full eight Nelson rules raise
+        <strong>82×</strong> — on a process in control by construction. The same experiment on
+        normal data returns 1.0×.</p>
+        <a class="figure" href="figures/pitstop-spc.png"
+           data-caption="pitstop-spc — false-alarm rate by limit scheme, measured by Monte Carlo on a process that is in control by construction.">
+          <img src="figures/pitstop-spc.png" width="1053" height="532" loading="lazy"
+               alt="False alarm rates for different control chart limit schemes compared with the nominal rate.">
+        </a>
+        <ul class="methods">
+          <li>SPC on non-normal data</li><li>Monte Carlo false-alarm rates</li><li>Capability indices</li><li>Limit calibration</li>
+        </ul>
+        <div class="card-links">
+          <a href="https://github.com/Pratsss24/pitstop-spc">Repository</a>
+          <a href="https://github.com/Pratsss24/pitstop-spc/blob/main/out/report.pdf">PDF report</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3><a href="https://github.com/Pratsss24/laptime-sim">laptime-sim</a></h3>
+        <p class="headline">A quasi-steady-state lap time solver written from scratch, about sixty
+        lines, nothing fitted. It lands <strong>within ±3.2%</strong> of the fastest 2026 race
+        laps at Monza and Silverstone and <strong>misses Monaco by 11.6%</strong> — and the repo
+        works out which assumption is wrong instead of turning up the grip until the answer
+        agrees.</p>
+        <a class="figure" href="figures/laptime-sim.png"
+           data-caption="laptime-sim — speed trace around the lap, coloured by which limit binds: cornering, braking or engine.">
+          <img src="figures/laptime-sim.png" width="1416" height="810" loading="lazy"
+               alt="Simulated speed trace around a circuit lap, coloured by the limiting constraint at each point.">
+        </a>
+        <ul class="methods">
+          <li>Quasi-steady-state solver</li><li>g–g envelope</li><li>Root finding on speed-dependent downforce</li><li>Validation against measured laps</li>
+        </ul>
+        <div class="card-links">
+          <a href="https://github.com/Pratsss24/laptime-sim">Repository</a>
+          <a href="https://github.com/Pratsss24/laptime-sim/blob/main/out/report.pdf">PDF report</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3><a href="https://github.com/Pratsss24/race-strategy-mc">race-strategy-mc</a></h3>
+        <p class="headline">Pit strategy solved by Monte Carlo from 24,386 lap times and 912 pit
+        stops, with every input measured from the same season the answer is tested against — pit
+        loss <strong>21.75 s</strong> green flag, <strong>7.43 s</strong> neutralised. Against
+        2023 the optimiser agrees at 5 circuits and <strong>calls too few stops at 9</strong>,
+        and most of the project is finding out why.</p>
+        <a class="figure" href="figures/race-strategy-mc.png"
+           data-caption="race-strategy-mc — the optimiser's chosen stop count against what the field actually did, circuit by circuit.">
+          <img src="figures/race-strategy-mc.png" width="1288" height="533" loading="lazy"
+               alt="Validation chart comparing optimised strategy against observed race strategies by circuit.">
+        </a>
+        <ul class="methods">
+          <li>Monte Carlo over strategies</li><li>Inputs measured, not tabulated</li><li>Optimiser validation against the field</li>
+        </ul>
+        <div class="card-links">
+          <a href="https://github.com/Pratsss24/race-strategy-mc">Repository</a>
+          <a href="https://github.com/Pratsss24/race-strategy-mc/blob/main/out/report.pdf">PDF report</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3><a href="https://github.com/Pratsss24/stint-degradation">stint-degradation</a></h3>
+        <p class="headline">Tyre degradation from 24,386 lap times, with the fuel effect estimated
+        out rather than assumed away. <strong>The obvious estimate has the wrong sign</strong>:
+        within a stint the data says tyres get 0.025 s/lap faster; put the race lap in the same
+        model and it says 0.032 s/lap slower (95% CI +0.026 to +0.038).</p>
+        <a class="figure" href="figures/stint-degradation.png"
+           data-caption="stint-degradation — the degradation curve before and after the fuel effect is separated from tyre age.">
+          <img src="figures/stint-degradation.png" width="1419" height="543" loading="lazy"
+               alt="Degradation curves showing opposite signs before and after removing the fuel-load effect.">
+        </a>
+        <ul class="methods">
+          <li>Confounded regression</li><li>Fixed effects</li><li>Identification argument</li><li>Contamination checks</li>
+        </ul>
+        <div class="card-links">
+          <a href="https://github.com/Pratsss24/stint-degradation">Repository</a>
+          <a href="https://github.com/Pratsss24/stint-degradation/blob/main/out/report.pdf">PDF report</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3><a href="https://github.com/Pratsss24/driver-or-car">driver-or-car</a></h3>
+        <p class="headline">How much of a lap time is the car and how much the driver, by variance
+        components. The car is <strong>0.732 s a lap</strong> and the driver <strong>0.192</strong>
+        — but what happened on a given afternoon is <strong>0.461</strong>, which is 2.4× the
+        driver. The largest thing a single-season ranking measures, after the car, is luck.</p>
+        <a class="figure" href="figures/driver-or-car.png"
+           data-caption="driver-or-car — variance decomposition: car, day, driver, and measurement error.">
+          <img src="figures/driver-or-car.png" width="894" height="429" loading="lazy"
+               alt="Variance decomposition chart splitting lap time spread into car, day, driver and error components.">
+        </a>
+        <ul class="methods">
+          <li>Variance components</li><li>Mixed effects</li><li>Teammate pairing</li><li>Reliability of the ranking</li>
+        </ul>
+        <div class="card-links">
+          <a href="https://github.com/Pratsss24/driver-or-car">Repository</a>
+          <a href="https://github.com/Pratsss24/driver-or-car/blob/main/out/report.pdf">PDF report</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3><a href="https://github.com/Pratsss24/price-of-a-second">price-of-a-second</a></h3>
+        <p class="headline">What a slow pit stop actually costs, measured the only way it can be
+        without inventing anything: two cars of the same team in the same race, one of which had
+        the wheel gun misfire. <strong>A botched stop costs 1.34 places at the flag</strong>,
+        95% interval [0.70, 1.98], p = 0.0001.</p>
+        <a class="figure" href="figures/price-of-a-second.png"
+           data-caption="price-of-a-second — the teammate pairs the estimate is built from: same team, same race, one bad stop.">
+          <img src="figures/price-of-a-second.png" width="967" height="639" loading="lazy"
+               alt="Chart of teammate pairs within the same race, comparing finishing positions after a botched pit stop.">
+        </a>
+        <ul class="methods">
+          <li>Within-pair comparison</li><li>Bootstrap intervals</li><li>Dose–response</li><li>Placebo checks</li>
+        </ul>
+        <div class="card-links">
+          <a href="https://github.com/Pratsss24/price-of-a-second">Repository</a>
+          <a href="https://github.com/Pratsss24/price-of-a-second/blob/main/out/report.pdf">PDF report</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3><a href="https://github.com/Pratsss24/grid-slot-value">grid-slot-value</a></h3>
+        <p class="headline">What one grid slot is worth, measured from the 596 of 2,241 entries
+        that took a grid penalty — the one thing that moves a car without changing the car.
+        <strong>0.17 places at the flag</strong>, 95% [+0.07, +0.27]. Regressing on grid position
+        says 0.30, so <strong>44% of apparent track position is the car reasserting itself</strong>.</p>
+        <a class="figure" href="figures/grid-slot-value.png"
+           data-caption="grid-slot-value — the ladder of estimates, from the naive regression down to the penalty-only natural experiment.">
+          <img src="figures/grid-slot-value.png" width="1180" height="579" loading="lazy"
+               alt="Ladder chart of grid slot value estimates with confidence intervals under successively stricter identification.">
+        </a>
+        <ul class="methods">
+          <li>Natural experiment</li><li>Within-driver fixed effects</li><li>Bootstrap intervals</li><li>Confound audit</li>
+        </ul>
+        <div class="card-links">
+          <a href="https://github.com/Pratsss24/grid-slot-value">Repository</a>
+          <a href="https://github.com/Pratsss24/grid-slot-value/blob/main/out/report.pdf">PDF report</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3><a href="https://github.com/Pratsss24/safety-car-lottery">safety-car-lottery</a></h3>
+        <p class="headline">A green-flag pit stop costs <strong>23.2 s</strong>; the same stop
+        sheltered by a safety car costs <strong>5.2 s</strong> — a prize of <strong>18.0 s</strong>,
+        95% [+5.3, +33.0], handed to 160 of the 280 cars that still had a stop to make. The hard
+        part is telling a neutralisation from rain, and the repo does that before anything else.</p>
+        <a class="figure" href="figures/safety-car-lottery.png"
+           data-caption="safety-car-lottery — the price of a pit stop under green flags against the same stop under a neutralisation.">
+          <img src="figures/safety-car-lottery.png" width="991" height="599" loading="lazy"
+               alt="Chart comparing pit stop time loss under green flag conditions versus under a safety car.">
+        </a>
+        <ul class="methods">
+          <li>Event detection vs rain confounder</li><li>Counterfactual pit loss</li><li>Validation against known events</li>
+        </ul>
+        <div class="card-links">
+          <a href="https://github.com/Pratsss24/safety-car-lottery">Repository</a>
+          <a href="https://github.com/Pratsss24/safety-car-lottery/blob/main/out/report.pdf">PDF report</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3><a href="https://github.com/Pratsss24/undercut-effect">undercut-effect</a></h3>
+        <p class="headline">What pitting first is worth, from lap times alone — no telemetry, no
+        gap feed. Against a same-lap control the gain is <strong>+2.1 to +3.8 s</strong>, best at a
+        three-lap head start, and <strong>fully repaid by lap 12 — it is a loan, not a gain</strong>.
+        11.4% of 731 attempts work, against 3.4% of the controls.</p>
+        <a class="figure" href="figures/undercut-effect.png"
+           data-caption="undercut-effect — measured gain against the control, by size of the head start.">
+          <img src="figures/undercut-effect.png" width="1243" height="523" loading="lazy"
+               alt="Measured undercut gain plotted against head start in laps, with control comparison.">
+        </a>
+        <ul class="methods">
+          <li>Control construction from lap times</li><li>Dose–response</li><li>Decay estimation</li><li>Census and attrition audit</li>
+        </ul>
+        <div class="card-links">
+          <a href="https://github.com/Pratsss24/undercut-effect">Repository</a>
+          <a href="https://github.com/Pratsss24/undercut-effect/blob/main/out/report.pdf">PDF report</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3><a href="https://github.com/Pratsss24/pace-to-pass">pace-to-pass</a></h3>
+        <p class="headline">How much quicker a car has to be to get past, from 24,386 lap times and
+        nothing else. <strong>+0.40 s a lap for an even chance</strong>; being held up costs
+        +0.25 s a lap; a pass takes 1.76× as long as pure pace predicts. Race order rebuilt from
+        lap times alone agrees with the reported position on <strong>23,956 of 23,956 laps</strong>.</p>
+        <a class="figure" href="figures/pace-to-pass.png"
+           data-caption="pace-to-pass — hazard of completing a pass against the pace advantage held.">
+          <img src="figures/pace-to-pass.png" width="811" height="559" loading="lazy"
+               alt="Hazard of completing an overtake plotted against pace advantage per lap.">
+        </a>
+        <ul class="methods">
+          <li>Hazard modelling</li><li>Dose–response</li><li>Order reconstruction</li><li>Falsification checks</li>
+        </ul>
+        <div class="card-links">
+          <a href="https://github.com/Pratsss24/pace-to-pass">Repository</a>
+          <a href="https://github.com/Pratsss24/pace-to-pass/blob/main/out/report.pdf">PDF report</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Every number on this page comes from the repository it sits next to, and every figure is
+    the output of that repository's own code. The reports are built page by page in matplotlib,
+    so a run produces one printable file.</p>
+    <p>Source for this site:
+      <a href="https://github.com/Pratsss24/Pratsss24.github.io">github.com/Pratsss24/Pratsss24.github.io</a>.
+      All projects: <a href="https://github.com/Pratsss24">github.com/Pratsss24</a>.</p>
+  </div>
+</footer>
+
+<dialog id="lightbox" aria-label="Enlarged figure">
+  <figure>
+    <img id="lightbox-img" src="" alt="">
+    <figcaption id="lightbox-cap"></figcaption>
+  </figure>
+</dialog>
+
+<script src="site.js"></script>
+</body>
+</html>
